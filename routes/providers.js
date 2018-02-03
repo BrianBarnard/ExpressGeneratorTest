@@ -1,17 +1,28 @@
 var express = require('express');
 var router = express.Router();
-
-var dataAccess = require('../data/DataAccess');
+var orm = require('../data/orm');
 
 /* GET Providers List */
-router.get('/', function(req, res) {
-  var providers = dataAccess.Read();
-  res.send(providers);
+router.get('/', function(req, res) {  
+    orm.Provider.findAll().then( providers =>
+    {
+        res.send(providers);
+    })
 });
 
 /* GET Provider By Id. */
 router.get('/:providerId', function(req, res) {
-    res.send("Get me providerId: " + req.params["providerId"]);
+    var requestedProvider = req.params["providerId"];
+    orm.Provider.find({
+            where: {
+                providerId: requestedProvider
+            }
+        }).then(
+        providers =>
+        {
+            res.send(providers);
+        }
+    )
 });
 
 /* POST Provider*/

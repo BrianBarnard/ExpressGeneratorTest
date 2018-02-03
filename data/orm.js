@@ -17,17 +17,26 @@ var DB = new Sequelize(database, userName, password, {
     }
 });
 
+console.log("Created DB object?");
+
+
 // Define the 'Provider' model
-var Provider = database.define('provider', {
+var Provider = DB.define('provider', {
     providerId: Sequelize.UUID,
     providerName: Sequelize.STRING
 });
 
+console.log("Defined provider model");
+
 // Tell Sequelize to DROP and CREATE tables in the database and put some test data in there
 console.log("Sync my ship");
-database.sync({force: true})
+DB.sync({force: true})
 .then(function()
 {
     Provider.create({providerId: '9f00f05d-8467-43d8-b201-a9487cb9beba', providerName: 'The Goat Roofers'});
 });
 console.log("Shipped Synced");
+
+module.exports =  {
+    Provider
+};

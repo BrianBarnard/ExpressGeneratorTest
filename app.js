@@ -1,20 +1,28 @@
 var express = require('express');
 var path = require('path');
-require('dotenv').config();
+var dotenv = require('dotenv').config();
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+console.log("Booting up.");
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var providers = require('./routes/providers');
+
+console.log("registered routes");
+
+
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+console.log("view engine setup");
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -27,6 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/providers', providers);
+
+console.log("Told it to use things");
+
+var orm = require('./data/orm');
+
+console.log("Loaded orm");
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,5 +59,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+console.log("app.js done");
 
 module.exports = app;
